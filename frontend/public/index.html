@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>LABORATORY ACTIVITIES</title>
+  <link rel="stylesheet" href="/assets/styles.css">
+  <script src="/assets/app.js" defer></script>
+</head>
+<body>
+  <aside class="sidebar">
+    <a class="brand" href="/" aria-label="Laboratory Activities home"><span class="brand-icon" aria-hidden="true">▦</span><span>LABORATORY<br><span class="brand-light">ACTIVITIES</span></span></a>
+    <p class="sidebar-label">YOUR COMPUTER VISION WORKSPACE</p>
+    <nav aria-label="Laboratory activities" id="lab-nav"></nav>
+    <div class="sidebar-note">CSST106 · Perception &amp; Computer Vision <span>AY 2026–2027</span></div>
+  </aside>
+  <main>
+    <header><span id="breadcrumb">Laboratory Workspace <span class="slash">/</span> LAB 01</span><span class="window-controls" aria-hidden="true"><i>_</i><i>□</i><i>×</i></span></header>
+    <div id="lab-view">
+    <section class="intro">
+      <p class="eyebrow">LAB 01 <span>·</span> WEEKS 1–2</p>
+      <h1>Image Manipulation</h1>
+      <p class="subtitle">Explore how computers see. Upload an image, inspect its pixels, and experiment with fundamental image operations.</p>
+      <div class="topic-tags"><span>Image representation</span><span>Color spaces</span><span>OpenCV</span></div>
+    </section>
+    <section class="workspace" aria-labelledby="workspace-title">
+      <div class="section-heading"><h2 id="workspace-title"><span class="step">01</span> Set up your experiment</h2><span class="muted">Images stay in memory for this request</span></div>
+      <form id="lab-form">
+        <div class="upload-panel">
+          <label for="image" class="upload-label"><span class="upload-icon">↥</span><strong>Choose your sample image</strong><span>PNG, JPEG, BMP or WebP · up to 10 MB / 12 MP</span></label>
+          <input id="image" name="image" type="file" accept="image/png,image/jpeg,image/bmp,image/webp" required>
+          <p id="file-info" class="muted">A color image works best for comparing BGR and grayscale.</p>
+        </div>
+        <div class="control-grid">
+          <fieldset><legend>Inspect &amp; change a pixel</legend><p>Coordinates start at the top-left (0, 0).</p><div class="fields"><label>X<input id="pixel_x" type="number" min="0" value="0" required></label><label>Y<input id="pixel_y" type="number" min="0" value="0" required></label></div><div class="fields"><label>Blue<input id="blue" type="number" min="0" max="255" value="0" required></label><label>Green<input id="green" type="number" min="0" max="255" value="0" required></label><label>Red<input id="red" type="number" min="0" max="255" value="255" required></label></div></fieldset>
+          <fieldset><legend>Crop a region</legend><p>Select a rectangle within your image.</p><div class="fields"><label>Start X<input id="crop_x" type="number" min="0" value="0" required></label><label>Start Y<input id="crop_y" type="number" min="0" value="0" required></label></div><div class="fields"><label>Width<input id="crop_width" type="number" min="1" value="1" required></label><label>Height<input id="crop_height" type="number" min="1" value="1" required></label></div></fieldset>
+          <fieldset><legend>Resize &amp; rotate</legend><p>Dimensions are in pixels. Rotation is 90° clockwise.</p><div class="fields"><label>Width<input id="resize_width" type="number" min="1" max="4096" value="1" required></label><label>Height<input id="resize_height" type="number" min="1" max="4096" value="1" required></label></div><p class="hint">Each operation uses the original image independently.</p></fieldset>
+        </div>
+        <div class="form-footer"><p id="message" role="status" aria-live="polite">Choose an image to begin.</p><button id="run" type="submit" disabled>Run experiment <span>↗</span></button></div>
+      </form>
+    </section>
+    <section id="empty-state" class="empty-state"><span>▧</span><h2>A new perspective awaits</h2><p>Your original image, properties, and processed outputs will appear here.</p></section>
+    <section id="results" hidden aria-labelledby="results-title">
+      <div class="section-heading"><h2 id="results-title"><span class="step">02</span> Observe the results</h2><a href="#reports" class="text-link">Go to report ↓</a></div>
+      <div id="properties" class="properties"></div>
+      <p id="pixel-details" class="explanation"></p>
+      <div id="output-grid" class="output-grid"></div>
+      <div class="learning-note"><strong>What am I seeing?</strong><p>An image is an array of pixel values. OpenCV represents a color image as (height, width, channels) and stores channels in blue, green, red order. Grayscale has one intensity per pixel, from 0 (black) to 255 (white). Cropping selects array rows and columns; resizing resamples pixels; rotation changes their spatial arrangement. These operations support applications such as document scanning and preparing images for object detection.</p></div>
+
+    </section>
+    <section class="report" aria-labelledby="lab-report-title">
+      <div class="section-heading"><h2 id="lab-report-title">LAB 01 report</h2><a href="#reports" class="text-link">All reports &rarr;</a></div>
+      <p class="muted">Your independently prepared PDF report will appear here once added to the reports folder.</p>
+      <div id="lab-reports"></div>
+    </section>
+    </div>
+    <div id="lab-02-view" hidden>
+      <section class="intro">
+        <p class="eyebrow">LAB 02 <span>·</span> WEEKS 3–4</p>
+        <h1>Edge Detection</h1>
+        <p class="subtitle">Upload an image, reduce noise with Gaussian blur, and compare Sobel gradient magnitude with a Canny edge map.</p>
+        <div class="topic-tags"><span>Gaussian blur</span><span>Sobel</span><span>Canny</span></div>
+      </section>
+      <section class="workspace" aria-labelledby="edge-workspace-title">
+        <div class="section-heading"><h2 id="edge-workspace-title"><span class="step">01</span> Set up your experiment</h2></div>
+        <form id="edge-form">
+          <div class="upload-panel">
+            <label for="edge-image" class="upload-label"><span class="upload-icon" aria-hidden="true">↥</span><strong>Choose your sample image</strong><span>PNG, JPEG, BMP or WebP · up to 10 MB / 12 MP</span></label>
+            <input id="edge-image" type="file" accept="image/png,image/jpeg,image/bmp,image/webp" required>
+            <p id="edge-file-info" class="muted">Use input.jpg if supplied by your instructor, or choose your own image.</p>
+          </div>
+          <div class="edge-controls">
+            <fieldset><legend>Canny thresholds</legend><p>Try the handout defaults (100, 200), then compare different thresholds.</p>
+              <div class="fields"><label>Lower threshold<input id="lower-threshold" type="number" min="0" max="254" value="100" required></label><label>Upper threshold<input id="upper-threshold" type="number" min="1" max="255" value="200" required></label></div>
+            </fieldset>
+            <div class="muted"><p><strong>Preprocessing:</strong> decode to grayscale, then apply a 3 × 3 Gaussian blur (sigma = 0, automatically derived).</p><p><strong>Sobel:</strong> compute X and Y gradients with a 3 × 3 kernel and combine their magnitude. Both detectors use the same blurred image.</p></div>
+          </div>
+          <div class="form-footer"><p id="edge-message" role="status" aria-live="polite">Choose an image to begin.</p><button id="edge-run" type="submit" disabled>Detect edges <span>↗</span></button></div>
+        </form>
+      </section>
+      <section id="edge-empty" class="empty-state"><span aria-hidden="true">▧</span><h2>Find the boundaries</h2><p>Your grayscale original, Sobel edges, and Canny edges will appear side by side.</p></section>
+      <section id="edge-results" hidden aria-labelledby="edge-results-title">
+        <div class="section-heading"><h2 id="edge-results-title"><span class="step">02</span> Compare the edge maps</h2></div>
+        <div id="edge-properties" class="properties"></div>
+        <p id="edge-run-details" class="explanation"></p>
+        <div id="edge-output-grid" class="output-grid edge-output-grid"></div>
+        <details class="learning-note"><summary>Inspect the Gaussian-blurred input</summary><div id="edge-blur-output"></div></details>
+        <div class="learning-note"><strong>Sobel and Canny: what to compare</strong><p>Sobel magnitude represents the strength of local intensity changes. It can show broad boundaries and fine texture at different gray levels. Canny uses gradient analysis, non-maximum suppression, and two-threshold hysteresis to produce a binary edge map with thin boundaries. Lower thresholds can retain more detail and noise; higher thresholds can remove weaker boundaries. Inspect your own outputs to see which structures each method retains.</p><p>The Sobel preview is scaled from its actual floating-point magnitude range to 0–255 for PNG display. Its brightness is relative to this image; it is not a binary edge classification.</p></div>
+      </section>
+      <section class="report" aria-labelledby="edge-report-title"><div class="section-heading"><h2 id="edge-report-title">LAB 02 report</h2><a href="#reports" class="text-link">All reports &rarr;</a></div><div id="lab-02-reports"></div></section>
+    </div>
+    <div id="lab-03-view" hidden>
+      <section class="intro">
+        <p class="eyebrow">LAB 03 <span>·</span> WEEKS 4–5</p>
+        <h1 class="hist-title">Histogram Equalization and Contrast Adjustment</h1>
+        <p class="subtitle">Upload an image and compare global equalization, adaptive equalization, and linear contrast stretching alongside their intensity histograms.</p>
+        <div class="topic-tags"><span>Histograms</span><span>Global equalization</span><span>CLAHE</span><span>Contrast stretching</span></div>
+      </section>
+      <section class="workspace" aria-labelledby="hist-workspace-title">
+        <div class="section-heading"><h2 id="hist-workspace-title"><span class="step">01</span> Set up your experiment</h2></div>
+        <form id="hist-form">
+          <div class="upload-panel">
+            <label for="hist-image" class="upload-label"><span class="upload-icon" aria-hidden="true">↥</span><strong>Choose your sample image</strong><span>PNG, JPEG, BMP or WebP · up to 10 MB / 12 MP</span></label>
+            <input id="hist-image" type="file" accept="image/png,image/jpeg,image/bmp,image/webp" required>
+            <p id="hist-file-info" class="muted">Try an image with low contrast, then compare with a well-lit image.</p>
+          </div>
+          <div class="edge-controls">
+            <fieldset><legend>Processing mode</legend><label class="hist-select-label" for="hist-mode">Image representation</label><select id="hist-mode"><option value="grayscale">Grayscale</option><option value="color">Color (YUV luminance)</option></select><p>Grayscale adjusts pixel intensities. Color adjusts only Y in YUV, then converts back for display.</p></fieldset>
+            <fieldset><legend>CLAHE settings</legend><div class="fields"><label>Clip limit<input id="hist-clip" type="number" min="0.1" max="40" step="0.1" value="2" required></label><label>Tiles per axis<input id="hist-grid" type="number" min="1" max="32" value="8" required></label></div><p>Defaults: clip limit 2.0 and an 8 × 8 tile grid. Tile grid means the number of regions, not pixels per tile.</p></fieldset>
+          </div>
+          <p class="muted hist-method">All methods start from the same original intensity channel. Linear stretching maps its minimum and maximum to 0 and 255; a constant channel is left unchanged.</p>
+          <div class="form-footer"><p id="hist-message" role="status" aria-live="polite">Choose an image to begin.</p><button id="hist-run" type="submit" disabled>Run experiment <span>↗</span></button></div>
+        </form>
+      </section>
+      <section id="hist-empty" class="empty-state"><span aria-hidden="true">▥</span><h2>Explore the intensity distribution</h2><p>Images and their 256-bin histograms will appear here.</p></section>
+      <section id="hist-results" hidden aria-labelledby="hist-results-title">
+        <div class="section-heading"><h2 id="hist-results-title"><span class="step">02</span> Compare images and histograms</h2></div>
+        <p id="hist-run-details" class="explanation"></p>
+        <div id="hist-output-grid" class="output-grid"></div>
+        <p class="muted">Histograms use the same pixel-count scale for comparison. In color mode they describe Y before conversion back to BGR; color reconstruction can introduce clipping and rounding differences.</p>
+      </section>
+      <section class="report" aria-labelledby="hist-report-title"><div class="section-heading"><h2 id="hist-report-title">LAB 03 report</h2><a href="#reports" class="text-link">All reports &rarr;</a></div><div id="lab-03-reports"></div></section>
+    </div>
+    <div id="lab-04-view" hidden>
+      <section class="intro">
+        <p class="eyebrow">LAB 04 <span>·</span> WEEK 6</p>
+        <h1>SURF Feature Detection</h1>
+        <p class="subtitle">Detect local keypoints, inspect descriptor dimensions, and compare feature matching on two images using SURF, upright SURF, SIFT, and ORB.</p>
+        <div class="topic-tags"><span>SURF / U-SURF</span><span>SIFT</span><span>ORB</span><span>Feature matching</span></div>
+      </section>
+      <div id="feature-capabilities" class="explanation" role="status">Checking detector availability...</div>
+      <section class="workspace" aria-labelledby="feature-workspace-title">
+        <div class="section-heading"><h2 id="feature-workspace-title"><span class="step">01</span> Choose two images</h2></div>
+        <form id="feature-form">
+          <div class="feature-uploads">
+            <div class="upload-panel"><label for="feature-image-a" class="upload-label"><span class="upload-icon" aria-hidden="true">↥</span><strong>Image A</strong><span>Object or scene</span></label><input id="feature-image-a" type="file" accept="image/png,image/jpeg,image/bmp,image/webp" required></div>
+            <div class="upload-panel"><label for="feature-image-b" class="upload-label"><span class="upload-icon" aria-hidden="true">↥</span><strong>Image B</strong><span>Same object, another view</span></label><input id="feature-image-b" type="file" accept="image/png,image/jpeg,image/bmp,image/webp" required></div>
+          </div>
+          <p id="feature-file-info" class="muted hist-method">PNG, JPEG, BMP or WebP. Up to 4 million pixels per image; combined files under 10 MB. Try a rotated view to compare SURF and upright SURF when available.</p>
+          <div class="edge-controls">
+            <fieldset><legend>SURF detector</legend><label class="hist-select-label" for="feature-hessian">Hessian threshold</label><input id="feature-hessian" type="number" min="1" max="10000" value="400" required><p>Applied to SURF and U-SURF only. Higher thresholds generally retain fewer keypoints. SIFT and ORB use their own defaults with a 1,000-feature target.</p></fieldset>
+            <fieldset><legend>Descriptor matching</legend><label class="hist-select-label" for="feature-ratio">Nearest-neighbor ratio</label><input id="feature-ratio" type="number" min="0.1" max="0.95" step="0.01" value="0.75" required><p>Keep the closest match when its distance is below this fraction of the second closest. Lower values are stricter.</p></fieldset>
+          </div>
+          <div class="form-footer"><p id="feature-message" role="status" aria-live="polite">Choose both images to begin.</p><button id="feature-run" type="submit" disabled>Compare features <span>↗</span></button></div>
+        </form>
+      </section>
+      <section id="feature-empty" class="empty-state"><span aria-hidden="true">▧</span><h2>Find points in common</h2><p>Keypoints, descriptor information, timings, and matched features will appear here.</p></section>
+      <section id="feature-results" hidden aria-labelledby="feature-results-title">
+        <div class="section-heading"><h2 id="feature-results-title"><span class="step">02</span> Compare features and matches</h2></div>
+        <p id="feature-run-details" class="explanation"></p>
+        <div id="feature-originals" class="output-grid"></div>
+        <div class="feature-table-wrap"><table class="feature-table"><caption>Available detectors on the same image pair</caption><thead><tr><th scope="col">Detector</th><th scope="col">Keypoints A / B</th><th scope="col">Detection + descriptors A / B (ms)</th><th scope="col">Ratio-test matches</th></tr></thead><tbody id="feature-summary"></tbody></table></div>
+        <p class="muted">Timings measure one run of detection and descriptor computation, excluding image decoding and drawing. They vary with image content and hardware. Matching uses at most the strongest 1,000 descriptors per image; only the best 50 accepted matches are drawn. Ratio-test matches are candidates, not geometrically verified correspondences.</p>
+        <div id="feature-algorithms"></div>
+      </section>
+      <section class="report" aria-labelledby="feature-report-title"><div class="section-heading"><h2 id="feature-report-title">LAB 04 report</h2><a href="#reports" class="text-link">All reports &rarr;</a></div><div id="lab-04-reports"></div></section>
+    </div>
+    <section id="reports-view" hidden aria-labelledby="reports-title">
+      <div class="intro"><p class="eyebrow">LABORATORY PORTFOLIO</p><h1 id="reports-title">Laboratory reports<span class="accent">.</span></h1><p class="subtitle">Read and download the reports prepared for each laboratory activity.</p></div>
+      <div class="section-heading"><h2>PDF library</h2><button id="refresh-reports" type="button" class="secondary">Refresh reports</button></div>
+      <p id="reports-status" class="muted" role="status" aria-live="polite"></p>
+      <div id="report-list" class="report-list"></div>
+      <section id="pdf-viewer" class="report" hidden aria-labelledby="pdf-title">
+        <div class="section-heading"><h2 id="pdf-title">Report preview</h2><a id="pdf-open" class="text-link" target="_blank" rel="noopener">Open PDF in new tab</a></div>
+        <p class="muted">If your browser does not display the preview, open or download the PDF instead.</p>
+        <iframe id="pdf-frame" title="Laboratory report PDF preview"></iframe>
+      </section>
+    </section>
+    <footer>CSST106 <span>Perception and Computer Vision · Laboratory portfolio</span></footer>
+  </main>
+  <script src="/assets/lab_02.js" defer></script>
+  <script src="/assets/lab_03.js" defer></script>
+  <script src="/assets/lab_04.js" defer></script>
+</body>
+</html>
