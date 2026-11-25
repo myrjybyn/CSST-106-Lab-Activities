@@ -1,6 +1,6 @@
 # CSST106 — Computer Vision Laboratory Portfolio
 
-A single Web UI for the course laboratory activities. Each implemented lab has a labeled navigation entry, a dedicated Python module, and an API endpoint. **LAB 01: Image Manipulation**, **LAB 02: Edge Detection**, and **LAB 03: Histogram Equalization and Contrast Adjustment** are implemented. **LAB 04: SURF Feature Detection** adds SIFT/ORB matching and SURF/U-SURF support when the OpenCV build permits it; add future labs to the same application as they are completed.
+A single Web UI for the course laboratory activities. Each implemented lab has a dedicated module and API endpoint. The sidebar labels activities by number only: **LAB 01** through **LAB 07**. Current modules cover Image Manipulation, Edge Detection, Histogram Equalization and Contrast Adjustment, SURF Feature Detection, Facial Recognition with PCA (Eigenfaces), YOLO object detection, and image segmentation.
 
 ## Run locally
 
@@ -14,9 +14,9 @@ python -m venv .venv
 
 If using the already verified global environment instead, run `python -m backend.app.main`. Open **http://127.0.0.1:5000**. Stop with Ctrl+C. Node.js is not required; Flask serves the HTML, CSS, JavaScript, and API together. In VS Code, select the same interpreter used to launch the server.
 
-Dependencies: Flask, NumPy, Matplotlib (histogram plots), and the GUI-capable OpenCV contrib distribution already present in the checked environment. Do not install multiple OpenCV distributions into the same environment. Browser previews replace `cv2.imshow`; uploads are decoded with `cv2.imdecode` rather than reading a fixed file path.
+Dependencies: Flask, NumPy, Matplotlib (plots), scikit-learn (LFW, PCA, and SVM), OpenCV, and Ultralytics with PyTorch (YOLOv11). Install `backend/requirements.txt` in a virtual environment to set up the packages together. Ultralytics downloads pretrained weights on first use. Browser previews replace `cv2.imshow`; uploaded images are decoded in memory.
 
-## Lab Activity 1
+## LAB 01 - Image Manipulation
 
 1. Upload a color PNG, JPEG, BMP, or WebP image (up to 10 MB; at most 12 million decoded pixels).
 2. Set the pixel coordinate and replacement BGR values, crop rectangle, and resize dimensions.
@@ -38,6 +38,9 @@ backend/
     labs/lab_02.py   # Sobel and Canny edge detection
     labs/lab_03.py   # Histogram equalization, CLAHE, stretching, plots
     labs/lab_04.py   # Feature detection, capabilities, descriptor matching
+    labs/lab_05.py   # LFW Eigenfaces, whitened PCA, RBF SVM, plots
+    labs/lab_06.py   # YOLOv11 inference, dataset checks, training and validation
+    labs/lab_07.py   # Threshold, region, watershed, edge, and semantic segmentation
   tests/test_lab_01.py
 frontend/
   public/index.html  # Shared lab workspace
@@ -45,13 +48,16 @@ frontend/
   src/lab_02.js      # Lab 2 uploads, controls, comparison
   src/lab_03.js      # Lab 3 images, histograms, mode and CLAHE controls
   src/lab_04.js      # Lab 4 paired uploads, detector comparison, matches
+  src/lab_05.js      # Lab 5 dataset run, variance and classification results
+  src/lab_06.js      # Lab 6 image/webcam detection and custom training
+  src/lab_07.js      # Lab 7 segmentation methods, metrics, and semantic output
   src/styles.css     # Responsive layout and PDF viewer
 reports/
   README.md          # PDF naming guide and report checklist
   lab_01.pdf         # Your own report (add when ready)
 ```
 
-For future labs, add a processing module, register a route and navigation entry, and implement the corresponding UI. Label activities with uppercase, two-digit numbering: **LAB 01**, **LAB 02**, etc., throughout navigation, headings, and report labels. In each lab introduction, put the lab number and week information above the main heading, and use the actual lab name as the main heading (for example, **Image Manipulation**). Do not repeat the lab name in a badge or replace it with a slogan. Keep reports aligned with the implemented techniques and actual outputs. Only implemented labs are advertised as available.
+For future labs, add a processing module, register a route and navigation entry, and implement the corresponding UI. Label activities with uppercase, two-digit numbering: **LAB 01**, **LAB 02**, etc., throughout navigation, headings, and report labels. In each lab introduction, put the lab number and week information above the main heading, and use the actual lab name as the main heading (for example, **Image Manipulation**). Do not repeat the lab name in a badge or replace it with a slogan. Keep reports aligned with the implemented techniques and actual outputs. Only implemented labs are advertised as available. The sidebar shows only the two-digit **LAB ##** label.
 
 ## Verification
 
@@ -111,3 +117,31 @@ Prepare your own observations, answers, and conclusion in your report. Place the
 Timings measure a single detection-and-description run per image, excluding decoding and drawing. Matching time is shown separately. They are observations for the current inputs and hardware, not a controlled speed benchmark. Empty descriptor sets and insufficient matches produce zero matches with guidance rather than crashing.
 
 Download visualizations as PNGs. Prepare your own report and place it at `reports/lab_04.pdf` or inside `reports/lab_04/`. Report SURF/U-SURF as unavailable unless you have actually run them using a compatible build; SIFT/ORB output is never relabeled as SURF output.
+
+## LAB 05 - Facial Recognition with PCA (Eigenfaces), weeks 7-8
+
+1. Open LAB 05 and click **Run PCA experiment**. The app fetches the LFW dataset with `min_faces_per_person=70` and `resize=0.4`. The first run needs internet access; subsequent runs use scikit-learn's dataset cache in the system temporary directory.
+2. The app reports sample count, raw feature dimensions, identities, and the 80/20 train/test split using `random_state=42`.
+3. PCA uses 150 components (or the maximum valid count if the training data is smaller), `svd_solver='randomized'`, and `whiten=True`. It is fitted on training data only, then transforms both splits. The display includes the first 12 and last 3 eigenfaces and cumulative explained variance. It reports the first component count reaching 90%, or that the threshold is not reached within the fitted components.
+4. An RBF SVC with `class_weight='balanced'` is fitted on the whitened training projections. The results show precision, recall, F1, and support by identity, macro/weighted averages, overall accuracy, and sample misclassified test faces.
+5. Use the actual outputs for your own discussion of variance, eigenfaces, whitening, SVM performance, and failure cases. The website displays measured results but does not draft report answers. Put your PDF at `reports/lab_05.pdf` or inside `reports/lab_05/`.
+
+Scikit-learn, NumPy, and Matplotlib are pinned in `backend/requirements.txt`. The LFW download is approximately hundreds of megabytes on a first uncached run; keep Flask running while it loads and trains. If it fails, check the server terminal for the download or memory error and retry after fixing the underlying issue.
+
+## LAB 06 - Object Detection with YOLOv11 (weeks 8-9)
+
+The provided filename says YOLOv8, while the document body specifies YOLOv11. This activity follows the handout body and uses the `yolo11n.pt` pretrained checkpoint.
+
+1. Install project dependencies with `python -m pip install -r backend/requirements.txt`, then restart Flask. The first pretrained inference downloads `yolo11n.pt` if it is not cached.
+2. Upload an image or allow webcam access and capture a snapshot. Run detection to see the annotated output, class names, confidence scores, box coordinates, and inference time. Adjust the confidence threshold to explore which detections are retained.
+3. To train a custom model, annotate images and split them into train and validation sets. Package a `data.yaml`, `images/train`, `images/val`, `labels/train`, and `labels/val` folder structure in a ZIP. The dataset guide in LAB 06 shows the expected normalized YOLO box format. The app checks the YAML, paths, and labels before training.
+
+4. Set epochs (1-100; handout default 100) and image size (320-1280, divisible by 32; default 640), then start training. CPU training can take a long time. Ultralytics validates during training; use **Evaluate again** to run validation separately and view precision, recall, and mAP metrics. Download `best.pt` to preserve the checkpoint.
+
+Dataset uploads are limited to 120 MB compressed and 1 GB expanded. Data and training outputs are kept in system temporary folders. The app's custom-model selector is available for the current Flask process; download the checkpoint to keep it. Place your own report PDF at `reports/lab_06.pdf` or inside `reports/lab_06/`.
+
+## LAB 07 - Segmentation Technique (week 13)
+
+Upload an image to compare Otsu global thresholding, adaptive Gaussian thresholding, seed-based fixed-range region growing, Canny contours, and marker-controlled watershed. Choose light or dark foreground polarity for thresholding and watershed; set a seed point for region growing and tune its per-channel color tolerance. An optional same-size ground-truth mask produces intersection-over-union scores for the generated binary masks. Without a reference mask, the app reports foreground pixel counts instead.
+
+The optional semantic segmentation section uses pretrained DeepLabV3 with a ResNet-50 backbone through PyTorch and torchvision. It downloads pretrained weights on first use, so that part needs an internet connection initially. The classical methods run with the OpenCV dependencies already listed in `backend/requirements.txt`.

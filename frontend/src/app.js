@@ -15,9 +15,6 @@ async function loadLabs() {
       link.href = `#${lab.id}`;
       link.dataset.view = lab.id;
       link.textContent = `LAB ${String(lab.number).padStart(2, '0')}`;
-      const subtitle = document.createElement('small');
-      subtitle.textContent = lab.title;
-      link.append(subtitle);
       $('lab-nav').append(link);
     }
     const reportsLink = element('a', 'Reports');
@@ -143,7 +140,7 @@ function render(data, filename) {
 
 function selectView() {
   const reports = location.hash === '#reports';
-  const views = {'lab-01': 'lab-view', 'lab-02': 'lab-02-view', 'lab-03': 'lab-03-view', 'lab-04': 'lab-04-view'};
+  const views = {'lab-01': 'lab-view', 'lab-02': 'lab-02-view', 'lab-03': 'lab-03-view', 'lab-04': 'lab-04-view', 'lab-05': 'lab-05-view', 'lab-06': 'lab-06-view', 'lab-07': 'lab-07-view'};
   const selected = Object.hasOwn(views, location.hash.slice(1)) ? location.hash.slice(1) : 'lab-01';
   for (const [lab, view] of Object.entries(views)) $(view).hidden = reports || lab !== selected;
   $('reports-view').hidden = !reports;
@@ -190,6 +187,9 @@ async function loadReports() {
     $('lab-02-reports').replaceChildren();
     $('lab-03-reports').replaceChildren();
     $('lab-04-reports').replaceChildren();
+    $('lab-05-reports').replaceChildren();
+    $('lab-06-reports').replaceChildren();
+    $('lab-07-reports').replaceChildren();
     $('pdf-viewer').hidden = true;
     $('pdf-frame').removeAttribute('src');
     for (const report of data.reports) {
@@ -198,6 +198,9 @@ async function loadReports() {
       if (report.lab_number === 2) $('lab-02-reports').append(reportCard(report));
       if (report.lab_number === 3) $('lab-03-reports').append(reportCard(report));
       if (report.lab_number === 4) $('lab-04-reports').append(reportCard(report));
+      if (report.lab_number === 5) $('lab-05-reports').append(reportCard(report));
+      if (report.lab_number === 6) $('lab-06-reports').append(reportCard(report));
+      if (report.lab_number === 7) $('lab-07-reports').append(reportCard(report));
     }
     if (!$('lab-reports').childElementCount) {
       $('lab-reports').append(element('p', 'No LAB 01 PDF yet. Add reports/lab_01.pdf, then refresh the Reports tab.', 'muted'));
@@ -211,6 +214,15 @@ async function loadReports() {
     if (!$('lab-04-reports').childElementCount) {
       $('lab-04-reports').append(element('p', 'No LAB 04 PDF yet. Add reports/lab_04.pdf, then refresh the Reports tab.', 'muted'));
     }
+    if (!$('lab-05-reports').childElementCount) {
+      $('lab-05-reports').append(element('p', 'No LAB 05 PDF yet. Add reports/lab_05.pdf, then refresh the Reports tab.', 'muted'));
+    }
+    if (!$('lab-06-reports').childElementCount) {
+      $('lab-06-reports').append(element('p', 'No LAB 06 PDF yet. Add reports/lab_06.pdf, then refresh the Reports tab.', 'muted'));
+    }
+    if (!$('lab-07-reports').childElementCount) {
+      $('lab-07-reports').append(element('p', 'No LAB 07 PDF yet. Add reports/lab_07.pdf, then refresh the Reports tab.', 'muted'));
+    }
     $('reports-status').textContent = data.reports.length ? `${data.reports.length} PDF report(s) available.` : 'No reports yet. Add your PDFs to reports/ (for example, lab_01.pdf), then click Refresh reports.';
   } catch (error) {
     $('reports-status').textContent = error.message;
@@ -218,6 +230,9 @@ async function loadReports() {
     $('lab-02-reports').replaceChildren(element('p', error.message, 'muted'));
     $('lab-03-reports').replaceChildren(element('p', error.message, 'muted'));
     $('lab-04-reports').replaceChildren(element('p', error.message, 'muted'));
+    $('lab-05-reports').replaceChildren(element('p', error.message, 'muted'));
+    $('lab-06-reports').replaceChildren(element('p', error.message, 'muted'));
+    $('lab-07-reports').replaceChildren(element('p', error.message, 'muted'));
   } finally { $('refresh-reports').disabled = false; }
 }
 window.addEventListener('hashchange', selectView);

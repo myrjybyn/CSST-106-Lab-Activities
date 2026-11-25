@@ -155,6 +155,108 @@
       </section>
       <section class="report" aria-labelledby="feature-report-title"><div class="section-heading"><h2 id="feature-report-title">LAB 04 report</h2><a href="#reports" class="text-link">All reports &rarr;</a></div><div id="lab-04-reports"></div></section>
     </div>
+    <div id="lab-05-view" hidden>
+      <section class="intro">
+        <p class="eyebrow">LAB 05 <span>·</span> WEEKS 7–8</p>
+        <h1 class="pca-title">Facial Recognition with PCA (Eigenfaces)</h1>
+        <p class="subtitle">Explore how PCA compresses face images into a smaller set of features, then measure how an SVM classifies the reduced representations.</p>
+        <div class="topic-tags"><span>LFW dataset</span><span>PCA / whitening</span><span>Eigenfaces</span><span>RBF SVM</span></div>
+      </section>
+      <section class="workspace" aria-labelledby="pca-workspace-title">
+        <div class="section-heading"><h2 id="pca-workspace-title"><span class="step">01</span> Acquire data and run the experiment</h2></div>
+        <div class="explanation"><strong>Dataset:</strong> Labeled Faces in the Wild (LFW), filtered to people with at least 70 images and resized to 40%. The first run downloads LFW if it is not cached. The dataset cache is stored in the system temporary folder.</div>
+        <div class="form-footer pca-runner"><p id="pca-message" role="status" aria-live="polite">Ready to fetch LFW, fit PCA, and train the SVM.</p><button id="pca-run" type="button">Run PCA experiment <span>↗</span></button></div>
+      </section>
+      <section id="pca-empty" class="empty-state"><span aria-hidden="true">▦</span><h2>Reduce the face space</h2><p>Dataset summary, eigenfaces, variance retention, SVM evaluation, and misclassified faces will appear here.</p></section>
+      <section id="pca-results" hidden aria-labelledby="pca-results-title">
+        <div class="section-heading"><h2 id="pca-results-title"><span class="step">02</span> Inspect the experiment</h2></div>
+        <div id="pca-summary" class="properties"></div>
+        <p id="pca-details" class="explanation"></p>
+        <div class="pca-visuals">
+          <figure class="output-card"><img id="pca-samples" class="pca-plot" alt="Sample LFW face images"><figcaption><h3>Sample faces</h3><p>One example per included identity.</p></figcaption></figure>
+          <figure class="output-card"><img id="pca-variance" class="pca-plot" alt="Cumulative PCA explained variance with a 90 percent threshold"><figcaption><h3>Cumulative explained variance</h3><p id="pca-variance-note"></p></figcaption></figure>
+        </div>
+        <figure class="output-card pca-eigen-card"><img id="pca-eigenfaces" class="pca-plot" alt="First twelve and last three PCA eigenfaces"><figcaption><h3>Eigenfaces</h3><p>First 12 and last 3 of the fitted component set. Eigenface intensity is normalized by the plot for viewing; these are component vectors, not reconstructed portraits.</p></figcaption></figure>
+        <div class="learning-note"><strong>Whitening and SVM</strong><p>PCA is fitted on training faces only. With whitening enabled, projected components are scaled to unit variance using their eigenvalues. This puts components on comparable scales for the RBF SVM. The test data is transformed with the same fitted PCA model.</p></div>
+        <div class="section-heading pca-subheading"><h2><span class="step">03</span> Classification report</h2><span id="pca-accuracy" class="muted"></span></div>
+        <div class="feature-table-wrap"><table class="feature-table"><caption>Per-identity test-set precision, recall, and F1 score</caption><thead><tr><th scope="col">Identity</th><th scope="col">Precision</th><th scope="col">Recall</th><th scope="col">F1 score</th><th scope="col">Support</th></tr></thead><tbody id="pca-report"></tbody></table></div>
+        <p id="pca-averages" class="explanation"></p>
+        <section id="pca-failures" class="report" hidden><h2>Misclassified test faces</h2><p class="muted">Examples from this run show the actual identity and predicted identity for your own failure analysis.</p><img id="pca-failure-gallery" class="pca-plot" alt="Misclassified test face examples with actual and predicted labels"></section>
+      </section>
+      <section class="report" aria-labelledby="pca-report-title"><div class="section-heading"><h2 id="pca-report-title">LAB 05 report</h2><a href="#reports" class="text-link">All reports &rarr;</a></div><div id="lab-05-reports"></div></section>
+    </div>
+    <div id="lab-06-view" hidden>
+      <section class="intro">
+        <p class="eyebrow">LAB 06 <span>·</span> WEEKS 8–9</p>
+        <h1 class="yolo-title">Object Detection with YOLOv11</h1>
+        <p class="subtitle">Detect and label objects in an image or webcam frame, then prepare a YOLO dataset, train a custom detector, and review its validation metrics.</p>
+        <div class="topic-tags"><span>YOLOv11n</span><span>Object detection</span><span>YOLO annotations</span><span>Custom training</span></div>
+      </section>
+      <div id="yolo-capability" class="explanation" role="status">Checking YOLO installation...</div>
+      <section class="workspace" aria-labelledby="yolo-inference-title">
+        <div class="section-heading"><h2 id="yolo-inference-title"><span class="step">01</span> Detect objects</h2></div>
+        <form id="yolo-detect-form">
+          <div class="feature-uploads">
+            <div class="upload-panel"><label for="yolo-image" class="upload-label"><span class="upload-icon" aria-hidden="true">↥</span><strong>Upload an image</strong><span>PNG, JPEG, BMP or WebP · up to 12 MP</span></label><input id="yolo-image" type="file" accept="image/png,image/jpeg,image/bmp,image/webp"></div>
+            <div class="upload-panel camera-panel"><strong>Use your webcam</strong><p class="muted">Allow camera access, then capture a frame for inference.</p><video id="yolo-video" autoplay muted playsinline hidden></video><canvas id="yolo-canvas" hidden></canvas><div class="camera-actions"><button id="yolo-camera-start" type="button" class="secondary">Start camera</button><button id="yolo-camera-capture" type="button" disabled>Capture &amp; detect</button><button id="yolo-camera-stop" type="button" class="secondary" disabled>Stop</button></div></div>
+          </div>
+          <div class="edge-controls">
+            <fieldset><legend>Detection settings</legend><div class="fields"><label>Confidence threshold<input id="yolo-confidence" type="number" min="0.01" max="0.99" step="0.01" value="0.25"></label><label>Model<select id="yolo-model"><option value="pretrained">Pretrained YOLOv11n</option></select></label></div></fieldset>
+            <p class="muted">Boxes below the confidence threshold are filtered out. Inference time is measured on the Flask server and depends on the device and model.</p>
+          </div>
+          <div class="form-footer"><p id="yolo-message" role="status" aria-live="polite">Upload an image or start the webcam.</p><button id="yolo-detect" type="submit" disabled>Run detection <span>↗</span></button></div>
+        </form>
+        <section id="yolo-results" hidden aria-labelledby="yolo-results-title"><div class="section-heading"><h2 id="yolo-results-title"><span class="step">02</span> Detection results</h2><span id="yolo-summary" class="muted"></span></div><div class="yolo-result-grid"><figure class="output-card"><div class="image-stage"><img id="yolo-annotated" alt="YOLO object detection output"></div><figcaption><h3>Detected objects</h3><a id="yolo-download" download="yolo-detections.jpg">Download annotated image</a></figcaption></figure><div><div class="feature-table-wrap"><table class="feature-table"><caption>Bounding boxes</caption><thead><tr><th scope="col">Class</th><th scope="col">Confidence</th><th scope="col">Box (x1, y1, x2, y2)</th></tr></thead><tbody id="yolo-detections"></tbody></table></div></div></div></section>
+      </section>
+      <section class="workspace yolo-training" aria-labelledby="yolo-training-title">
+        <div class="section-heading"><h2 id="yolo-training-title"><span class="step">03</span> Train and evaluate your dataset</h2></div>
+        <details class="learning-note"><summary>Dataset format and annotation guide</summary><p>Create train and validation splits with matching image and label paths:</p><pre>dataset.zip
+  data.yaml
+  images/train/*.jpg
+  images/val/*.jpg
+  labels/train/*.txt
+  labels/val/*.txt</pre><p>Each label text file has one normalized bounding box per line: <code>class_id x_center y_center width height</code>. Coordinates and sizes range from 0 to 1. In data.yaml, define <code>train: images/train</code>, <code>val: images/val</code>, <code>nc</code>, and a consecutive <code>names</code> list. Include the dataset folder and data.yaml at the ZIP root. This UI checks paths and labels before training.</p></details>
+        <form id="yolo-train-form"><div class="upload-panel"><label for="yolo-dataset" class="upload-label"><span class="upload-icon" aria-hidden="true">↥</span><strong>Upload annotated dataset ZIP</strong><span>Up to 120 MB compressed / 1 GB expanded · 5,000 files</span></label><input id="yolo-dataset" type="file" accept=".zip,application/zip" required></div><div class="edge-controls"><label>Epochs<input id="yolo-epochs" type="number" min="1" max="100" value="100" required></label><label>Image size<input id="yolo-image-size" type="number" min="320" max="1280" step="32" value="640" required></label></div><div class="form-footer"><p id="yolo-train-message" role="status" aria-live="polite">Training may take a long time, especially on CPU. The first run may download YOLOv11n weights.</p><button id="yolo-train" type="submit">Train custom model <span>↗</span></button></div></form>
+        <section id="yolo-training-results" class="report" hidden><div class="section-heading"><h2>Training results</h2><div class="camera-actions"><button id="yolo-evaluate" type="button" class="secondary">Evaluate again</button><a id="yolo-checkpoint" class="text-link" download="best.pt">Download best.pt</a></div></div><p id="yolo-training-summary" class="muted"></p><div id="yolo-metrics" class="properties"></div></section>
+      </section>
+      <div class="learning-note"><strong>Object detection vs. classification</strong><p>Classification assigns labels to an entire image. Object detection also locates individual objects with bounding boxes and confidence scores. Compare predicted labels with your annotated dataset and review precision and recall after validation.</p></div>
+      <section class="report" aria-labelledby="yolo-report-title"><div class="section-heading"><h2 id="yolo-report-title">LAB 06 report</h2><a href="#reports" class="text-link">All reports &rarr;</a></div><div id="lab-06-reports"></div></section>
+    </div>
+    <div id="lab-07-view" hidden>
+      <section class="intro">
+        <p class="eyebrow">LAB 07 <span>·</span> WEEK 13</p>
+        <h1 class="segmentation-title">Segmentation Technique</h1>
+        <p class="subtitle">Separate image regions with global and adaptive thresholds, seed-based region growing, watershed, and edge contours. Compare predicted masks with an optional ground-truth mask.</p>
+        <div class="topic-tags"><span>Otsu threshold</span><span>Adaptive threshold</span><span>Region growing</span><span>Watershed</span><span>Semantic segmentation</span></div>
+      </section>
+      <section class="workspace" aria-labelledby="segmentation-workspace-title">
+        <div class="section-heading"><h2 id="segmentation-workspace-title"><span class="step">01</span> Set up segmentation</h2></div>
+        <form id="segmentation-form">
+          <div class="feature-uploads">
+            <div class="upload-panel"><label for="seg-image" class="upload-label"><span class="upload-icon" aria-hidden="true">↥</span><strong>Choose your sample image</strong><span>PNG, JPEG, BMP or WebP · up to 12 MP</span></label><input id="seg-image" type="file" accept="image/png,image/jpeg,image/bmp,image/webp" required><p id="seg-file-info" class="muted">Select an image with objects or regions you can distinguish.</p></div>
+            <div class="upload-panel"><label for="seg-ground-truth" class="upload-label"><span class="upload-icon" aria-hidden="true">＋</span><strong>Optional ground-truth mask</strong><span>Same dimensions; foreground pixels are any non-black value</span></label><input id="seg-ground-truth" type="file" accept="image/png,image/jpeg,image/bmp,image/webp"><p class="muted">Provide a binary reference mask to calculate Intersection over Union (IoU).</p></div>
+          </div>
+          <div class="edge-controls segmentation-controls">
+            <fieldset><legend>Thresholding</legend><label class="hist-select-label" for="seg-polarity">Foreground polarity</label><select id="seg-polarity"><option value="light">Light foreground</option><option value="dark">Dark foreground</option></select><div class="fields"><label>Adaptive block size (odd)<input id="seg-block" type="number" min="3" max="51" step="2" value="21"></label><label>Adaptive C<input id="seg-adaptive-c" type="number" min="-20" max="20" value="5"></label></div><p>Otsu chooses a global threshold from the grayscale histogram. Adaptive thresholding uses local Gaussian neighborhoods.</p></fieldset>
+            <fieldset><legend>Region growing</legend><div class="fields"><label>Seed X<input id="seg-seed-x" type="number" min="0" value="0" required></label><label>Seed Y<input id="seg-seed-y" type="number" min="0" value="0" required></label></div><label class="hist-select-label" for="seg-tolerance">Per-channel color tolerance</label><input id="seg-tolerance" type="number" min="0" max="100" value="25"><p>Choose a seed inside the region to grow. The fixed-range flood fill compares pixels with the seed color.</p></fieldset>
+            <fieldset><legend>Edges &amp; watershed</legend><div class="fields"><label>Canny low<input id="seg-canny-low" type="number" min="0" max="254" value="80"></label><label>Canny high<input id="seg-canny-high" type="number" min="1" max="255" value="160"></label></div><label class="hist-select-label" for="seg-foreground">Watershed foreground fraction</label><input id="seg-foreground" type="number" min="0.1" max="0.9" step="0.05" value="0.35"><p>Distance-transform fraction controls the sure-foreground markers used to split touching regions.</p></fieldset>
+          </div>
+          <div class="form-footer"><p id="seg-message" role="status" aria-live="polite">Choose an image to begin.</p><button id="seg-run" type="submit" disabled>Run segmentation <span>↗</span></button></div>
+        </form>
+      </section>
+      <section id="seg-empty" class="empty-state"><span aria-hidden="true">▧</span><h2>Find meaningful regions</h2><p>Threshold masks, grown regions, watershed boundaries, and contours will be shown here.</p></section>
+      <section id="seg-results" hidden aria-labelledby="seg-results-title">
+        <div class="section-heading"><h2 id="seg-results-title"><span class="step">02</span> Compare segmentation methods</h2><span id="seg-summary" class="muted"></span></div>
+        <p id="seg-details" class="explanation"></p>
+        <div id="seg-metrics" class="feature-table-wrap"></div>
+        <div id="seg-output-grid" class="output-grid segmentation-output-grid"></div>
+        <div class="section-heading segmentation-semantic-heading"><h2><span class="step">03</span> Optional semantic segmentation</h2><button id="seg-semantic-run" type="button" class="secondary" disabled>Run DeepLabV3</button></div>
+        <p id="seg-semantic-status" class="explanation" role="status">Checking PyTorch and torchvision availability...</p>
+        <div id="seg-semantic-results" hidden><p id="seg-semantic-classes" class="explanation"></p><div id="seg-semantic-grid" class="output-grid"></div></div>
+        <div class="learning-note"><strong>How to interpret the results</strong><p>Otsu applies one intensity threshold; adaptive thresholding changes it with local illumination. Region growing connects pixels similar to a selected seed. Watershed treats the image as a topographic surface and labels boundaries between marker regions. Canny contours capture visible edges. IoU is intersection divided by union against the optional binary ground-truth mask; without one, only foreground pixel counts are reported. DeepLabV3 predicts semantic classes using pretrained weights and may download them on its first run.</p></div>
+      </section>
+      <section class="report" aria-labelledby="seg-report-title"><div class="section-heading"><h2 id="seg-report-title">LAB 07 report</h2><a href="#reports" class="text-link">All reports →</a></div><p class="muted">Your independently prepared PDF report will appear here once added to the reports folder.</p><div id="lab-07-reports"></div></section>
+    </div>
     <section id="reports-view" hidden aria-labelledby="reports-title">
       <div class="intro"><p class="eyebrow">LABORATORY PORTFOLIO</p><h1 id="reports-title">Laboratory reports<span class="accent">.</span></h1><p class="subtitle">Read and download the reports prepared for each laboratory activity.</p></div>
       <div class="section-heading"><h2>PDF library</h2><button id="refresh-reports" type="button" class="secondary">Refresh reports</button></div>
@@ -171,5 +273,8 @@
   <script src="/assets/lab_02.js" defer></script>
   <script src="/assets/lab_03.js" defer></script>
   <script src="/assets/lab_04.js" defer></script>
+  <script src="/assets/lab_05.js" defer></script>
+  <script src="/assets/lab_06.js" defer></script>
+  <script src="/assets/lab_07.js" defer></script>
 </body>
 </html>

@@ -111,7 +111,7 @@ header {
 .slash { margin: 0 8px; color: #e7c0e5; }
 .window-controls { display: flex; gap: 5px; flex-shrink: 0; }
 .window-controls i { display: grid; place-items: center; width: 23px; height: 23px; background: #f0dced; border: 2px solid #352053; box-shadow: inset 2px 2px white; color: #493168; font: 11.4px/1.7 var(--pixel-font); }
-#lab-view, #lab-02-view, #lab-03-view, #lab-04-view, #reports-view { padding: 0 32px 30px; }
+#lab-view, #lab-02-view, #lab-03-view, #lab-04-view, #lab-05-view, #lab-06-view, #lab-07-view, #reports-view { padding: 0 32px 30px; }
 .intro { padding: 30px 0 28px; border-bottom: 2px dashed #cfbadb; margin-bottom: 27px; }
 .eyebrow { font: 10.4px/1.6 var(--pixel-font); color: #79539a; letter-spacing: .3px; margin: 0; }
 .eyebrow>span { margin: 0 8px; }
@@ -191,7 +191,7 @@ form { border-radius: 14px; overflow: hidden; }
 .topic-tags span, .level-badge, .step, .upload-icon { border-radius: 6px; }
 .window-controls i { border-radius: 4px; }
 @media (min-width: 1600px) { body { padding-top: 40px; } }
-@media (max-width: 1100px) { .control-grid { grid-template-columns: 1fr; gap: 20px; } fieldset p { min-height: 0; } #lab-view, #lab-02-view, #lab-03-view, #lab-04-view, #reports-view { padding-right: 22px; padding-left: 22px; } .section-heading>.muted { display: none; } .properties { grid-template-columns: repeat(2,minmax(0,1fr)); } }
+@media (max-width: 1100px) { .control-grid { grid-template-columns: 1fr; gap: 20px; } fieldset p { min-height: 0; } #lab-view, #lab-02-view, #lab-03-view, #lab-04-view, #lab-05-view, #lab-06-view, #lab-07-view, #reports-view { padding-right: 22px; padding-left: 22px; } .section-heading>.muted { display: none; } .properties { grid-template-columns: repeat(2,minmax(0,1fr)); } }
 @media (max-width: 700px) {
   body { padding: 22px 12px 30px; background-size: auto 100vh; }
   .sidebar { position: static; width: auto; padding: 18px; margin-bottom: 20px; overflow: visible; }
@@ -206,7 +206,7 @@ form { border-radius: 14px; overflow: hidden; }
   .sidebar-note { font-size: 8.3px; } .sidebar-note span { display: none; }
   header { font-size: 9.4px; padding: 7px 9px; }
   .window-controls i { width: 19px; height: 20px; font-size: 9.9px; }
-  #lab-view, #lab-02-view, #lab-03-view, #lab-04-view, #reports-view { padding: 0 14px 22px; }
+  #lab-view, #lab-02-view, #lab-03-view, #lab-04-view, #lab-05-view, #lab-06-view, #lab-07-view, #reports-view { padding: 0 14px 22px; }
   .intro { padding: 23px 0; } h1 { font-size: clamp(16px, 3.8vw, 23px); }
   .eyebrow { font-size: 9.4px; } .eyebrow .level-badge { margin: 7px 0 0; }
   .subtitle { font-size: 7.3px; }
@@ -285,3 +285,47 @@ button { font-size: 10px; line-height: 1.8; }
 #feature-algorithms .output-grid { margin-bottom: 20px; }
 @media (max-width: 900px) { .feature-uploads { grid-template-columns: 1fr; } }
 @media (max-width: 700px) { #feature-message { flex-basis: auto; } }
+
+.pca-title { font-size: clamp(14px, 1.7vw, 23px); line-height: 1.9; overflow-wrap: anywhere; }
+.pca-runner { margin-top: 18px; border: 2px solid #d2bddc; border-radius: 10px; }
+#pca-message { font-size: 7px; color: var(--muted); margin: 0; flex: 1 1 320px; }
+#pca-message.error { color: #a22e4d; }
+.pca-visuals { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 18px; margin-top: 22px; }
+.pca-plot { display: block; max-width: 100%; height: auto; margin: 0 auto; }
+.pca-visuals .pca-plot { width: 100%; }
+.pca-eigen-card { margin-top: 18px; }
+.pca-subheading { margin-top: 28px; }
+#pca-failures { margin-top: 24px; }
+#pca-failure-gallery { max-width: 760px; }
+@media(max-width:700px) { .pca-visuals { grid-template-columns: 1fr; } .pca-title { font-size: 14px; } #pca-message { flex-basis: auto; } }
+
+.yolo-title { font-size: clamp(16px, 1.9vw, 25px); line-height: 1.9; overflow-wrap: anywhere; }
+#yolo-capability { margin: 0 0 20px; overflow-wrap: anywhere; }
+#yolo-capability p { margin: 5px 0; }
+.camera-panel>strong { font: 11px/1.8 var(--pixel-font); }
+#yolo-video { display: block; width: min(100%, 480px); max-height: 300px; object-fit: contain; margin: 14px auto; background: #30234d; border-radius: 8px; }
+.camera-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; }
+.camera-actions button { font-size: 8px; }
+.yolo-result-grid { display: grid; grid-template-columns: minmax(0,1.2fr) minmax(0,1fr); gap: 20px; }
+.yolo-result-grid .image-stage { height: auto; min-height: 220px; }
+.yolo-result-grid .image-stage img { width: 100%; height: auto; max-height: 620px; object-fit: contain; }
+.yolo-training { margin-top: 30px; border-top: 2px dashed #cfbadb; padding-top: 26px; }
+.yolo-training pre { overflow-x: auto; padding: 14px; background: #fffaf3; border: 1px solid #c2abd1; border-radius: 8px; font: 8px/2 var(--pixel-font); }
+.yolo-training code { background: #eadcf0; padding: 2px 5px; border-radius: 4px; }
+.yolo-training .edge-controls { align-items: start; }
+#yolo-train-message { font-size: 7px; color: var(--muted); margin: 0; flex: 1 1 300px; }
+#yolo-train-message.error, #yolo-message.error { color: #a22e4d; }
+#yolo-message { font-size: 7px; color: var(--muted); margin: 0; flex: 1 1 240px; }
+@media(max-width:850px) { .yolo-result-grid { grid-template-columns: 1fr; } }
+@media(max-width:700px) { .yolo-title { font-size: 14px; } #yolo-train-message, #yolo-message { flex-basis: auto; } }
+
+.segmentation-title { font-size: clamp(16px, 1.8vw, 24px); line-height: 1.9; overflow-wrap: anywhere; }
+#seg-message { font-size: 7px; color: var(--muted); margin: 0; flex: 1 1 240px; }
+#seg-message.error { color: #a22e4d; }
+#seg-polarity { width: 100%; margin-top: 8px; padding: 12px 8px; border: 2px solid #c2abd1; border-radius: 8px; background: #fffefb; color: var(--ink); font: 8px/1.9 var(--pixel-font); }
+.segmentation-controls { align-items: start; }
+.segmentation-output-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.segmentation-semantic-heading { margin-top: 28px; }
+#seg-semantic-status { overflow-wrap: anywhere; }
+@media(max-width:1000px) { .segmentation-output-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media(max-width:700px) { .segmentation-title { font-size: 14px; } #seg-message { flex-basis: auto; } .segmentation-output-grid { grid-template-columns: 1fr; } }

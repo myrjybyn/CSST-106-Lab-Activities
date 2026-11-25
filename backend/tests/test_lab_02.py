@@ -68,6 +68,6 @@ class LabTwoTests(unittest.TestCase):
                 self.assertEqual(self.post(options).status_code, 400)
 
     def test_lab_registry(self):
-        self.assertEqual([lab['id'] for lab in self.client.get('/api/labs').json['labs']], ['lab-01', 'lab-02', 'lab-03', 'lab-04'])
+        self.assertEqual([lab['id'] for lab in self.client.get('/api/labs').json['labs']], ['lab-01', 'lab-02', 'lab-03', 'lab-04', 'lab-05'])
         with self.client.get('/assets/lab_02.js') as response:
             self.assertEqual(response.status_code, 200)
